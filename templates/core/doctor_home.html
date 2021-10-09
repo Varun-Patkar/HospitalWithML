@@ -1,31 +1,151 @@
 {%extends 'core/base.html'%}
 {%block content%}
 {%load static%}
-<h1>My Profile</h1>
-<a style="display:inline;"
-	href="{%if user.isDoctor%}{% url 'core:update-doctor' user.pk %}{%else%}{% url 'core:update-patient' user.pk %}{%endif%}"
-	class="btn btn-primary">Update Profile</a>
-<a style="display:inline;" href="/edit-patients/" class="btn btn-primary">Manage Patients</a>
-<a style="display:inline;" href="/delete/" class="btn btn-danger">Delete Your Profile</a>
-<br>
-<br>
-<h2>Profile Picture:</h2>
-{%if user.profile_pic%}
-<img src="/{{user.profile_pic.url|slice:'5:'}}" alt="Uploaded Profile Pic" height="250px">
-{%else%}
-<img src="{% static 'core/images/default_profile_pic.png' %}" alt="Default Profile Pic" height="250px">
-{%endif%}
-<br>
-<a href="/update_profile_pic/" class="btn btn-danger">Update Profile Picture</a>
-<h2>Name : {{user.first_name}} {{user.last_name}}</h2>
-<h2>Email : {{user.username}}</h2>
-<h2>Specialization : {{user.specialization}}</h2>
+
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" type="text/css" href="bootstrap-4.5.3-dist/css/bootstrap.min.css">
+</head>
+<style>
+body{
+	background-color:#007bff;
+}
+.body1{
+	margin-top: 20px;
+	background-color:#007bff;
+}
+.main{
+	padding: 15px;
+}
+.sidebar{
+    background-color: darkblue;
+    color: white;
+    height: 100%;
+}
+.sidebar a{
+    margin-left: 10px;
+    display: block;
+    color: white;
+    padding-bottom: 10px;
+    font-size: 18px;
+    text-decoration: none;
+}
+.card{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+.content{
+	background-color: whitesmoke;
+}
+.round-circle{
+	width: 300px;
+	margin: auto;
+
+}
+.round-circle img{
+	border-radius: 50%;
+}
+.manage-patients{
+	position: absolute;
+	right: 1%;
+	top: 22%;
+}
+</style>
 {% if user.patients.all %}
-<h2>Patients Treating :</h2>
-<ul>
-	{%for patient in user.patients.all%}
-	<li>{{patient.first_name}} {{patient.last_name}}</li>
-	{%endfor%}
-</ul>
+<div class="body1">
+	<div class="container">
+		<div class="main">
+			<div class="row">
+				<div class="row">
+					<div class="col-md-4 mt-1 w-30">
+						<div class="card text-center sidebar">
+							<br>
+							<div class="card-body">
+							{%if user.profile_pic%}
+							<div class="round-circle">
+							<img src="/{{user.profile_pic.url|slice:'5:'}}" alt="Uploaded Profile Pic" height="300px" width="300px">
+							</div>
+							{%else%}
+							<div class="round-circle">
+							<img src="{% static 'core/images/default_profile_pic.png' %}" alt="Default Profile Pic"  height="300px"
+							width="300px">
+							</div>
+							{%endif%}
+							<br>
+							<a href="/update_profile_pic/" class="btn btn-danger mx-auto w-75">Update Profile Picture</a>
+							<div class="mt-3">
+								<h2>{{user.first_name}} {{user.last_name}}</h2>
+								<h5>{{user.specialization}}</h5>
+								<div class="icons1">
+									<img src="{% static 'core/images/doctor_icon.png' %}" alt="" height="68px" width="71px">
+								</div>
+							</div>
+							
+							</div>
+							
+						</div>
+					</div>
+					<div class="col-md-8 mt-1 w-70">
+						<div class="card mb-3 content">
+							<h2 class="m-3 pt-3">Information</h2>
+							
+							<a style="display:inline;" href="{%if user.isDoctor%}{% url 'core:update-doctor' user.pk %}{%else%}{% url 'core:update-patient' user.pk %}{%endif%}" class="btn btn-primary w-25">Update Profile</a>
+							<a style="display:inline;" href="/delete/" class="btn btn-danger w-25">Delete your Profile</a>
+							<div class="card-body">
+								<div class="row">
+								<div class="col-md-3">
+									<h5>Full Name</h5>
+								</div>
+								<div class="col-md-9 text-secondary">
+									{{user.first_name}} {{user.last_name}}
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-md-3">
+									<h5>Email ID</h5>
+								</div>
+								<div class="col-md-9 text-secondary">
+									{{user.username}}
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-md-3">
+									<h5>Specialization</h5>
+								</div>
+								<div class="col-md-9 text-secondary">
+									{{user.specialization}}
+								</div>
+							</div>
+						</div>
+						</div>
+						<div class="card mb-3 content">
+							<h2 class="m-3 pt-3">Patients Treating</h2>
+							<div class="manage-patients">
+							<a style="display:inline;" href="/edit-patients/" class="btn btn-primary w-25">Manage Patients</a>
+						</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-3">
+										<ul>
+											{%for patient in user.patients.all%}
+											<li>{{patient.first_name}} {{patient.last_name}}</li>
+											{%endfor%}
+										</ul>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+	
+			</div>
+	</div>
+	</div>
+	</div>
+	</div>
+
 {%endif%}
 {%endblock%}
