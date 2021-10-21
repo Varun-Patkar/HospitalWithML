@@ -44,7 +44,7 @@ def heartdisease(request):
 
 def breastcancer(request):
     if request.method == 'GET':
-        return render(request, "ml_tools/breastcancer.html", {'title':'Heart Disease Detector','resultPresent':False})
+        return render(request, "ml_tools/breastcancer.html", {'title':'Breast Cancer Detector','resultPresent':False})
     elif request.method == 'POST':
         test=pd.DataFrame([[float(request.POST['texture_mean']), float(request.POST['perimeter_mean']), float(request.POST['smoothness_mean']), float(request.POST['compactness_mean']),
         float(request.POST['concavity_mean']), float(request.POST['concave points_mean']), float(request.POST['symmetry_mean']), float(request.POST['radius_se']),
@@ -57,12 +57,12 @@ def breastcancer(request):
        'concave points_worst', 'symmetry_worst', 'fractal_dimension_worst'])
         model=joblib.load('model/breastcancer.pkl')
         result=model.predict(test)
-        return render(request, "ml_tools/breastcancer.html", {'title':'Heart Disease Detector','resultPresent':True,'result':False if result[0]==0 else True
+        return render(request, "ml_tools/breastcancer.html", {'title':'Breast Cancer Detection','resultPresent':True,'result':False if result[0]==0 else True
         })
 
 def malariadetect(request):
     if request.method == 'GET':
-        return render(request, "ml_tools/malariadetect.html", {'title':'Malaria Detector','resultPresent':False})
+        return render(request, "ml_tools/malariadetect.html", {'title':'Malaria Detection','resultPresent':False})
     elif request.method == 'POST':
         cell_sample=request.FILES.get("cell_sample")
         img_name=cell_sample.name
